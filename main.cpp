@@ -1,5 +1,6 @@
 #include<iostream>
 #include<cstdlib>
+#include<cstdio>
 #include<conio.h>
 #include<windows.h>
 #include<ctime>
@@ -9,7 +10,6 @@ using namespace std;
 
 #define width 66
 #define height 33
-
 
 // creating snake class
 class Snake{
@@ -43,8 +43,8 @@ class Snake{
             // if You want to make GAME OVER when snake head collides with wall of board
             // step 1 : Remove the conditions of Making Transparent wall from move_snake() member function
             // step 2 : Use following condtional statement
-            if(pos.X < 1|| pos.Y < 1 || pos.X > width-2 || pos.Y > height-2) 
-                return true;
+            // if(pos.X < 1|| pos.Y < 1 || pos.X > width-2 || pos.Y > height-2) 
+            //     return true;
 
             for(int i=0; i<len-1; i++){
                 if(pos.X == body[i].X && pos.Y == body[i].Y) // for checking with sanke head collides with body part or not
@@ -81,10 +81,10 @@ void Snake ::move_snake(){
     }
     
     // for making transparent walls
-    // if(pos.X > width-2)     pos.X = 1;
-    // if(pos.X < 1)           pos.X = width - 2;
-    // if(pos.Y > height-2)    pos.Y = 1;
-    // if(pos.Y < 1)           pos.Y = height - 2;
+    if(pos.X > width-2)     pos.X = 1;
+    if(pos.X < 1)           pos.X = width - 2;
+    if(pos.Y > height-2)    pos.Y = 1;
+    if(pos.Y < 1)           pos.Y = height - 2;
 
     body.push_back(pos);
 
@@ -98,8 +98,6 @@ COORD Snake :: get_pos(){
 
 // creating sanke object
 Snake snake({width/2, height/2}, 1);
-
-
 
 
 
@@ -127,8 +125,6 @@ Food food;
 
 
 
-
-
 // creating board
 int score;
 void board(){
@@ -139,7 +135,7 @@ void board(){
     // Printing score
     cout<<"\t\t\t\t\tSCORE : "<<score<<"\n\n";
 
-    // here # is for wall, 0 for snake head, o for snake body part, @ for food
+    // here # is for wall, @ for snake head, o for snake body part, * for food
     for (int i = 0; i < height; i++){
         cout<<"\t\t#" ; // for printing 1st col 
         for(int j=0; j<width-2; j++){ // for printing 1st & last row
@@ -147,10 +143,10 @@ void board(){
                 cout<<"#";
             
             else if(i==snake_pos.Y && j+1==snake_pos.X)
-                cout<<"0";
+                cout<<"@";
             
             else if(i==food_pos.Y && j+1==food_pos.X)
-                cout<<"@";
+                cout<<"*";
 
             else{
                 bool isBodyPart = false;
@@ -158,7 +154,7 @@ void board(){
                     if(i == snake_Body[k].Y && j+1 == snake_Body[k].X){
                         cout<<"o";         // printing snake body part
                         isBodyPart = true;
-                        break;;
+                        break;
                     }
                 }
 
@@ -169,8 +165,6 @@ void board(){
         cout<<"#\n"; // for printing last col
     }   
 }
-
-
 
 
 
@@ -209,6 +203,4 @@ int main(){
 
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0,0});
     }
-    
-
 }
